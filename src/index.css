@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global DU dark theme overrides: map common Tailwind utility classes
+	 to a dark black background and primary color #382130. These use
+	 !important so they take precedence over utility classes where needed.
+*/
+:root {
+	--du: #943f5e; /* lighter DU primary for better visibility */
+	--du-bg: #080707; /* near-black background */
+	--du-surface: #0f0d0e; /* slightly lighter surface */
+	--du-muted: #a7a1a3;
+	--du-border: #211a1c;
+	--du-on: #f7f6f6;
+}
+
+/* Mobile social mode accent shift: keep backgrounds dark, switch accents to purple */
+@media (max-width: 767px) {
+	body.mode-social {
+		--du: #a855f7; /* primary purple accent */
+		--du-muted: #c4b5fd; /* muted purple text */
+		--du-border: #3b2c4d; /* purple-tinted border */
+	}
+
+	/* map du utilities to the purple accent on mobile social */
+	body.mode-social .text-du { color: var(--du) !important; }
+	body.mode-social .text-du\/80 { color: rgba(168, 85, 247, 0.8) !important; }
+	body.mode-social .text-du\/60 { color: rgba(168, 85, 247, 0.6) !important; }
+	body.mode-social .bg-du { background-color: var(--du) !important; }
+	body.mode-social .bg-du\/10 { background-color: rgba(168, 85, 247, 0.1) !important; }
+	body.mode-social .bg-du\/20 { background-color: rgba(168, 85, 247, 0.2) !important; }
+	body.mode-social .border-du { border-color: var(--du) !important; }
+	body.mode-social .border-du\/20 { border-color: rgba(168, 85, 247, 0.2) !important; }
+}
+
+html, body, #root {
+	background-color: var(--du-bg) !important;
+	color: var(--du-on) !important;
+}
+
+/* Replace white/light backgrounds with dark surface */
+.bg-white,
+.bg-gray-50,
+.bg-gray-100,
+.bg-gray-200,
+.bg-gray-100\/95,
+.bg-white\/95 {
+	background-color: var(--du-surface) !important;
+}
+
+/* Dark backgrounds remain dark */
+.bg-gray-800,
+.bg-gray-900,
+.bg-black {
+	background-color: #000 !important;
+}
+
+/* Text color overrides */
+.text-gray-900,
+.text-gray-800,
+.text-gray-700 {
+	color: var(--du-on) !important;
+}
+.text-gray-600,
+.text-gray-500,
+.text-gray-400 {
+	color: var(--du-muted) !important;
+}
+
+/* Border overrides */
+.border-gray-200,
+.border-gray-100,
+.border-gray-300 {
+	border-color: var(--du-border) !important;
+}
+
+/* Map blue/green accent utilities to DU primary */
+.bg-blue-600, .bg-green-600, .from-blue-600, .from-green-600, .to-indigo-700, .to-green-800, .bg-blue-500 {
+	background-color: var(--du) !important;
+}
+.text-blue-600, .text-green-400, .text-blue-700 {
+	color: var(--du) !important;
+}
+.bg-blue-50, .bg-green-50, .bg-blue-100, .bg-green-100 {
+	background-color: rgba(182, 99, 129, 0.137) !important; /* subtle lighter DU tint */
+}
+.bg-blue-100, .bg-green-100 {
+	background-color: rgba(117, 64, 84, 0.801) !important;
+}
+
+/* Buttons and pills */
+.bg-blue-600:hover, .bg-green-600:hover, .hover\:bg-blue-700:hover, .hover\:bg-green-500:hover {
+	background-color: #4b2e45 !important;
+}
+.text-blue-100, .text-green-100 {
+	color: rgba(245,245,245,0.9) !important;
+}
+
+/* Small UI tweaks for inputs, badges, and icons */
+.focus\:ring-blue-500:focus, .focus\:ring-du:focus {
+	box-shadow: 0 0 0 3px rgba(129, 63, 106, 0.24) !important;
+}
+.placeholder-gray-500::placeholder {
+	color: var(--du-muted) !important;
+}
+
+/* Bottom nav / header adjustments to ensure readable contrast */
+.bg-du-bg {
+	background-color: var(--du-bg) !important;
+}
+
+/* Ensure cards with gradient utilities that refer to green/blue use DU where possible */
+.bg-gradient-to-r.from-green-600.to-green-800,
+.bg-gradient-to-r.from-blue-600.to-indigo-700 {
+	background-image: linear-gradient(90deg, var(--du) 0%, #2a1418 100%) !important;
+}
+
+/* Keep social icons readable */
+.text-green-400, .text-blue-400 {
+	color: var(--du) !important;
+}
+
+/* General utility fallbacks */
+.shadow-green-500\/10, .shadow-green-500\/5, .shadow-green-500\/30, .border-green-500\/20 {
+	--tw-shadow-color: rgba(56,33,48,0.25) !important;
+}
+
+/* Ensure links stand out */
+a {
+	color: var(--du) !important;
+}
+
+/* Make sure disabled/less important text is visible */
+.text-gray-500, .text-gray-400 {
+	color: rgba(245,245,245,0.65) !important;
+}
+
+/* Force panels to use DU surface on mobile for stronger app-wide theme */
+@media (max-width: 767px) {
+	.rounded-2xl, .rounded-xl, .rounded-lg {
+		background-color: var(--du-surface) !important;
+	}
+}
+
+/* When a chat room is open, hide the mobile bottom nav */
+.chat-room-open .mobile-bottom-nav {
+	display: none !important;
+}
