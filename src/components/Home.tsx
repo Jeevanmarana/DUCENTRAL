@@ -1,6 +1,6 @@
 import { useAuth } from '../contexts/AuthContext';
 import { useMode } from '../contexts/ModeContext';
-import { Users, BookOpen, MessageCircle, Sparkles, Lightbulb, Mail } from 'lucide-react';
+import { Users, BookOpen, MessageCircle, Lightbulb, Mail } from 'lucide-react';
 
 type HomeProps = {
   onTabChange: (tab: string) => void;
@@ -14,10 +14,7 @@ export function Home({ onTabChange }: HomeProps) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24">
         <div className="bg-du md:bg-gradient-to-r md:from-green-600 md:to-green-800 rounded-2xl p-8 mb-8 text-white md:border border-green-500/30">
-          <div className="flex items-center space-x-3 mb-4">
-            <Sparkles className="w-8 h-8" />
-            <h1 className="text-3xl font-bold">Welcome, {profile?.name}!</h1>
-          </div>
+          <h1 className="text-3xl font-bold mb-4">Welcome, {profile?.name}!</h1>
           <p className="text-green-100 text-lg">
             {profile?.college_name} • {profile?.course}
           </p>
@@ -111,10 +108,7 @@ export function Home({ onTabChange }: HomeProps) {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 mb-8 text-white">
-        <div className="flex items-center space-x-3 mb-4">
-          <Sparkles className="w-8 h-8" />
-          <h1 className="text-3xl font-bold">Welcome back, {profile?.name}!</h1>
-        </div>
+        <h1 className="text-3xl font-bold mb-4">Welcome back, {profile?.name}!</h1>
         <p className="text-blue-100 text-lg">
           {profile?.college_name} • {profile?.course}
         </p>
