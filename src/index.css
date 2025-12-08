@@ -138,6 +138,34 @@ a {
 
 /* Force panels to use DU surface on mobile for stronger app-wide theme */
 @media (max-width: 767px) {
+	body {
+		font-size: 14px;
+		line-height: 1.4;
+	}
+	h1 { font-size: 1.8rem; }
+	h2 { font-size: 1.4rem; }
+	h3 { font-size: 1.2rem; }
+	h4, h5, h6 { font-size: 1rem; }
+
+	button, .btn, .px-6, .px-8, .py-3, .py-4 {
+		padding-top: 0.5rem !important;
+		padding-bottom: 0.5rem !important;
+		padding-left: 0.85rem !important;
+		padding-right: 0.85rem !important;
+		font-size: 0.95rem !important;
+	}
+
+	.text-base { font-size: 0.95rem !important; }
+	.text-lg { font-size: 1.05rem !important; }
+	.text-xl { font-size: 1.15rem !important; }
+	.text-2xl { font-size: 1.35rem !important; }
+	.text-3xl { font-size: 1.55rem !important; }
+
+	.rounded-2xl, .rounded-xl, .rounded-lg {
+		background-color: var(--du-surface) !important;
+		padding: 0.75rem !important;
+	}
+
 	.rounded-2xl, .rounded-xl, .rounded-lg {
 		background-color: var(--du-surface) !important;
 	}
