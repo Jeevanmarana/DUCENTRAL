@@ -36,7 +36,7 @@ export function Confessions() {
           user_id,
           content,
           created_at,
-          profiles (name)
+          profiles (college_name)
         `)
         .order('created_at', { ascending: false })
         .limit(50);
@@ -47,7 +47,9 @@ export function Confessions() {
           user_id: c.user_id,
           content: c.content,
           created_at: c.created_at,
-          profile_name: c.profiles?.name || 'Anonymous',
+          profile_name: c.profiles?.college_name
+            ? `Someone from ${c.profiles.college_name}`
+            : 'Someone from DU',
         }));
         setConfessions(formatted);
       }
@@ -66,7 +68,7 @@ export function Confessions() {
         async (payload) => {
           const { data: profileData } = await supabase
             .from('profiles')
-            .select('name')
+            .select('college_name')
             .eq('id', payload.new.user_id)
             .maybeSingle();
 
@@ -76,7 +78,9 @@ export function Confessions() {
               user_id: payload.new.user_id,
               content: payload.new.content,
               created_at: payload.new.created_at,
-              profile_name: profileData?.name || 'Anonymous',
+              profile_name: profileData?.college_name
+                ? `Someone from ${profileData.college_name}`
+                : 'Someone from DU',
             },
             ...prev,
           ]);
