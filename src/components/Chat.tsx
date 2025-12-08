@@ -341,18 +341,18 @@ export function Chat() {
                   {typingUsers.size === 1 ? 'is' : 'are'} typing...
                 </div>
               )}
-              <form onSubmit={sendMessage} className="flex space-x-2 items-center">
+              <form onSubmit={sendMessage} className="flex items-center space-x-2">
                 <input
                   type="text"
                   value={newMessage}
                   onChange={handleInputChange}
                   placeholder="Type a message..."
-                  className="flex-1 px-3 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 min-w-0 px-3 py-2 text-base md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
                 <button
                   type="submit"
                   disabled={!newMessage.trim()}
-                  className="bg-blue-600 text-white p-2 md:p-3 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center w-10 h-10 md:w-11 md:h-11 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Send className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
