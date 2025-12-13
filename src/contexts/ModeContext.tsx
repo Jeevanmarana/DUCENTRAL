@@ -5,27 +5,61 @@ type Mode = 'nerd' | 'social';
 interface ModeContextType {
   mode: Mode;
   setMode: (mode: Mode) => void;
+  toggleMode: () => void;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
 export function ModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<Mode>('nerd');
+  const [mode, setModeState] = useState<Mode>('nerd');
+  const [mounted, setMounted] = useState(false);
 
+  // Initialize from localStorage on mount
   useEffect(() => {
-    const body = document.body;
-    body.dataset.mode = mode;
-    body.classList.toggle('mode-social', mode === 'social');
-    body.classList.toggle('mode-nerd', mode === 'nerd');
+    const stored = localStorage.getItem('app-mode') as Mode | null;
+    const initialMode = stored || 'nerd';
+    setModeState(initialMode);
+    setMounted(true);
+    applyTheme(initialMode);
+  }, []);
 
-    return () => {
-      delete body.dataset.mode;
-      body.classList.remove('mode-social', 'mode-nerd');
-    };
-  }, [mode]);
+  // Apply theme to DOM when mode changes
+  useEffect(() => {
+    if (mounted) {
+      applyTheme(mode);
+      localStorage.setItem('app-mode', mode);
+    }
+  }, [mode, mounted]);
+
+  const applyTheme = (newMode: Mode) => {
+    const body = document.documentElement;
+    
+    // Remove old classes
+    body.classList.remove('mode-social', 'mode-nerd');
+    
+    // Add new class
+    body.classList.add(`mode-${newMode}`);
+    
+    // Update data attribute for CSS selectors
+    body.dataset.mode = newMode;
+    
+    // Trigger smooth transition
+    body.style.transition = 'background-color 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1)';
+    setTimeout(() => {
+      body.style.transition = '';
+    }, 200);
+  };
+
+  const setMode = (newMode: Mode) => {
+    setModeState(newMode);
+  };
+
+  const toggleMode = () => {
+    setMode(mode === 'nerd' ? 'social' : 'nerd');
+  };
 
   return (
-    <ModeContext.Provider value={{ mode, setMode }}>
+    <ModeContext.Provider value={{ mode, setMode, toggleMode }}>
       {children}
     </ModeContext.Provider>
   );

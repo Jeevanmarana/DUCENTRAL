@@ -14,6 +14,7 @@ import { Study } from './components/Study';
 import { Chat } from './components/Chat';
 import { Confessions } from './components/Confessions';
 import { Search } from './components/Search';
+import { MyProfile } from './components/MyProfile';
 
 function AppContent() {
   const [route, setRoute] = useState(window.location.pathname || '/');
@@ -79,8 +80,8 @@ function AppContent() {
     switch (currentTab) {
       case 'home':
         return <Home onTabChange={setCurrentTab} />;
-      case 'profiles':
-        return <Profiles />;
+      case 'search':
+        return <Search onTabChange={setCurrentTab} />;
       case 'study':
         return <Study />;
       case 'notes':
@@ -91,6 +92,8 @@ function AppContent() {
         return <Confessions />;
       case 'search':
         return <Search onTabChange={setCurrentTab} />;
+      case 'profile':
+        return <MyProfile />;
       default:
         return <Home onTabChange={setCurrentTab} />;
     }

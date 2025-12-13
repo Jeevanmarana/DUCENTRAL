@@ -59,7 +59,7 @@ export function CreateProfile() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
+              className="w-full px-4 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
               required
             />
           </div>
@@ -73,7 +73,7 @@ export function CreateProfile() {
               value={collegeName}
               onChange={(e) => setCollegeName(e.target.value)}
               placeholder="e.g., Miranda House, St. Stephen's College"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
+              className="w-full px-4 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
               required
             />
           </div>
@@ -87,7 +87,7 @@ export function CreateProfile() {
               value={course}
               onChange={(e) => setCourse(e.target.value)}
               placeholder="e.g., B.Sc Computer Science, B.A Economics"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
+              className="w-full px-4 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
               required
             />
           </div>
@@ -100,7 +100,7 @@ export function CreateProfile() {
               value={uniqueTrait}
               onChange={(e) => setUniqueTrait(e.target.value)}
               placeholder="What makes you special? A talent, hobby, or interesting fact..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent h-24 resize-none"
+              className="w-full px-4 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent h-24 resize-none"
               required
             />
           </div>

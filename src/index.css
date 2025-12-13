@@ -2,51 +2,250 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global DU dark theme overrides: map common Tailwind utility classes
-	 to a dark black background and primary color #382130. These use
-	 !important so they take precedence over utility classes where needed.
-*/
+/* Modern Mobile App Theme System */
 :root {
-	--du: #943f5e; /* lighter DU primary for better visibility */
-	--du-bg: #080707; /* near-black background */
-	--du-surface: #0f0d0e; /* slightly lighter surface */
-	--du-muted: #a7a1a3;
-	--du-border: #211a1c;
-	--du-on: #f7f6f6;
+  /* Social Mode */
+  --social-primary: #a855f7;
+  --social-secondary: #ec4899;
+  --social-accent: #f43f5e;
+  --social-bg: #ffffff;
+  --social-surface: #f9fafb;
+  --social-text: #0f172a;
+  --social-muted: #6b7280;
+  --social-border: #e5e7eb;
+
+  /* Nerd Mode */
+  --nerd-primary: #2563eb;
+  --nerd-secondary: #64748b;
+  --nerd-accent: #3b82f6;
+  --nerd-bg: #ffffff;
+  --nerd-surface: #f8fafc;
+  --nerd-text: #0f172a;
+  --nerd-muted: #64748b;
+  --nerd-border: #cbd5e1;
+
+  /* Current mode */
+  --primary: var(--nerd-primary);
+  --secondary: var(--nerd-secondary);
+  --accent: var(--nerd-accent);
+  --bg: var(--nerd-bg);
+  --surface: var(--nerd-surface);
+  --text: var(--nerd-text);
+  --muted: var(--nerd-muted);
+  --border: var(--nerd-border);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Mobile social mode accent shift: keep backgrounds dark, switch accents to purple */
-@media (max-width: 767px) {
-	body.mode-social {
-		--du: #a855f7; /* primary purple accent */
-		--du-muted: #c4b5fd; /* muted purple text */
-		--du-border: #3b2c4d; /* purple-tinted border */
-	}
-
-	/* map du utilities to the purple accent on mobile social */
-	body.mode-social .text-du { color: var(--du) !important; }
-	body.mode-social .text-du\/80 { color: rgba(168, 85, 247, 0.8) !important; }
-	body.mode-social .text-du\/60 { color: rgba(168, 85, 247, 0.6) !important; }
-	body.mode-social .bg-du { background-color: var(--du) !important; }
-	body.mode-social .bg-du\/10 { background-color: rgba(168, 85, 247, 0.1) !important; }
-	body.mode-social .bg-du\/20 { background-color: rgba(168, 85, 247, 0.2) !important; }
-	body.mode-social .border-du { border-color: var(--du) !important; }
-	body.mode-social .border-du\/20 { border-color: rgba(168, 85, 247, 0.2) !important; }
+/* Social Mode Theme */
+body.mode-social {
+  --primary: var(--social-primary);
+  --secondary: var(--social-secondary);
+  --accent: var(--social-accent);
+  --bg: var(--social-bg);
+  --surface: var(--social-surface);
+  --text: var(--social-text);
+  --muted: var(--social-muted);
+  --border: var(--social-border);
 }
 
 html, body, #root {
-	background-color: var(--du-bg) !important;
-	color: var(--du-on) !important;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Replace white/light backgrounds with dark surface */
-.bg-white,
-.bg-gray-50,
-.bg-gray-100,
-.bg-gray-200,
-.bg-gray-100\/95,
-.bg-white\/95 {
-	background-color: var(--du-surface) !important;
+/* Smooth transitions globally */
+* {
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base);
+}
+
+/* Mobile-first typography scaling */
+@media (max-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* Compact scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Cards: soft shadow, clean borders */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+}
+
+/* Buttons: compact, touch-friendly */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:active {
+  background-color: var(--border);
+}
+
+/* Input fields: modern, compact */
+.input {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: all var(--transition-base);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary)20;
+}
+
+.input::placeholder {
+  color: var(--muted);
+}
+
+/* Chip/tag: compact interactive elements */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.chip:active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Navigation: minimal, clean */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--surface);
+  border-top: 1px solid var(--border);
+  z-index: 40;
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.nav-item.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.nav-item svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Loading states */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Smooth page transitions */
+.page-transition {
+  animation: fadeIn 200ms ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Dark backgrounds remain dark */
@@ -138,6 +337,34 @@ a {
 
 /* Force panels to use DU surface on mobile for stronger app-wide theme */
 @media (max-width: 767px) {
+	body {
+		font-size: 14px;
+		line-height: 1.4;
+	}
+	h1 { font-size: 1.8rem; }
+	h2 { font-size: 1.4rem; }
+	h3 { font-size: 1.2rem; }
+	h4, h5, h6 { font-size: 1rem; }
+
+	button, .btn, .px-6, .px-8, .py-3, .py-4 {
+		padding-top: 0.5rem !important;
+		padding-bottom: 0.5rem !important;
+		padding-left: 0.85rem !important;
+		padding-right: 0.85rem !important;
+		font-size: 0.95rem !important;
+	}
+
+	.text-base { font-size: 0.95rem !important; }
+	.text-lg { font-size: 1.05rem !important; }
+	.text-xl { font-size: 1.15rem !important; }
+	.text-2xl { font-size: 1.35rem !important; }
+	.text-3xl { font-size: 1.55rem !important; }
+
+	.rounded-2xl, .rounded-xl, .rounded-lg {
+		background-color: var(--du-surface) !important;
+		padding: 0.75rem !important;
+	}
+
 	.rounded-2xl, .rounded-xl, .rounded-lg {
 		background-color: var(--du-surface) !important;
 	}
@@ -146,4 +373,28 @@ a {
 /* When a chat room is open, hide the mobile bottom nav */
 .chat-room-open .mobile-bottom-nav {
 	display: none !important;
+}
+
+/* Force chat send button BLACK on mobile - ULTRA SPECIFIC */
+@media (max-width: 767px) {
+	#chat-send-button,
+	form button[type="submit"]:not(:disabled),
+	button[type="submit"]:not(:disabled),
+	div[class*="fixed"] button[type="submit"]:not(:disabled),
+	div[class*="bottom-0"] button[type="submit"]:not(:disabled) {
+		background-color: #000000 !important;
+		background: #000000 !important;
+		color: #ffffff !important;
+		border: none !important;
+		box-shadow: none !important;
+	}
+	
+	#chat-send-button svg,
+	form button[type="submit"]:not(:disabled) svg,
+	button[type="submit"]:not(:disabled) svg,
+	div[class*="fixed"] button[type="submit"]:not(:disabled) svg {
+		color: #ffffff !important;
+		stroke: #ffffff !important;
+		fill: none !important;
+	}
 }

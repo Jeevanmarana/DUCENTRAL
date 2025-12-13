@@ -44,13 +44,13 @@ export function Profiles() {
 
       <div className="mb-6">
         <div className="relative">
-          <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${mode === 'social' ? 'text-du' : 'text-gray-400'}`} />
+          <Search className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${mode === 'social' ? 'text-du' : 'text-gray-400'}`} />
           <input
             type="text"
             placeholder="Search by name, college, or course..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className={`w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 ${mode === 'social' ? 'focus:ring-du' : 'focus:ring-blue-500'} focus:border-transparent`}
+            className={`w-full pl-4 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 ${mode === 'social' ? 'focus:ring-du' : 'focus:ring-blue-500'} focus:border-transparent`}
           />
         </div>
       </div>
