@@ -46,7 +46,7 @@ export function Auth({ initialMode = 'login', onClose }: AuthProps) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-800 text-white placeholder-gray-400 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 text-black placeholder-gray-400 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base"
               required
             />
           </div>
@@ -59,7 +59,7 @@ export function Auth({ initialMode = 'login', onClose }: AuthProps) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-800 text-white placeholder-gray-400 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 text-black placeholder-gray-400 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base"
               required
             />
           </div>
