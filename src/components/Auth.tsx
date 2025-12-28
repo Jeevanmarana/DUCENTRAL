@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import BackButton from './BackButton';
 
 interface AuthProps {
   initialMode?: 'login' | 'signup';
@@ -33,19 +32,14 @@ export function Auth({ initialMode = 'login', onClose }: AuthProps) {
   return (
     <div className="min-h-screen bg-du-bg flex items-center justify-center p-4">
       <div className="bg-gray-900 border border-gray-800 rounded-2xl shadow-xl w-full max-w-md p-6 sm:p-8">
-        <div className="flex items-center mb-4">
-          <div>
-            {onClose ? <BackButton onClick={onClose} /> : <BackButton />}
-          </div>
-        </div>
         <div className="flex flex-col items-center mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">DU Central</h1>
-          <p className="text-gray-300 mt-1">University of Delhi Student Platform</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-black">DU Central</h1>
+          <p className="text-gray-800 mt-1 font-medium">University of Delhi Student Platform</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-white mb-1">
+            <label className="block text-sm font-medium text-black mb-1">
               Email
             </label>
             <input
@@ -58,7 +52,7 @@ export function Auth({ initialMode = 'login', onClose }: AuthProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-white mb-1">
+            <label className="block text-sm font-medium text-black mb-1">
               Password
             </label>
             <input
@@ -88,7 +82,7 @@ export function Auth({ initialMode = 'login', onClose }: AuthProps) {
         <div className="mt-6 text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-purple-400 hover:text-purple-300 text-sm font-medium"
+            className="text-gray-800 hover:text-gray-900 text-sm font-medium"
           >
             {isLogin
               ? "Don't have an account? Sign Up"
