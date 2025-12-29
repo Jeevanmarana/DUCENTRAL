@@ -15,6 +15,7 @@ export type Profile = {
   college_name: string;
   course: string;
   unique_trait: string;
+  gender?: string;
   created_at: string;
   updated_at: string;
 };

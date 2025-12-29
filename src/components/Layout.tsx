@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useMode } from '../contexts/ModeContext';
-import { Home, Users, BookOpen, MessageCircle, LogOut, User, Mail, Zap, Search, Coffee } from 'lucide-react';
+import { Home, MessageCircle, LogOut, User, Search, Coffee } from 'lucide-react';
 
 type LayoutProps = {
   children: ReactNode;
@@ -10,14 +9,7 @@ type LayoutProps = {
 };
 
 export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
-  const { profile, signOut } = useAuth();
-  const { mode, toggleMode } = useMode();
-
-  const nerdTabs = [
-    { id: 'home', label: 'Home', icon: Home },
-    { id: 'study', label: 'Notes', icon: BookOpen },
-    { id: 'search', label: 'Search', icon: Search },
-  ];
+  const { user, profile, signOut } = useAuth();
 
   const socialTabs = [
     { id: 'home', label: 'Home', icon: Home },
@@ -26,29 +18,17 @@ export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
     { id: 'search', label: 'Search', icon: Search },
   ];
 
-  const tabs = mode === 'nerd' ? nerdTabs : socialTabs;
-
-  // Theme-aware colors using CSS variables
-  const isNerd = mode === 'nerd';
-  const topNavBg = 'bg-white border-b border-gray-200';
-  const topNavText = 'text-gray-900';
-  const activeTabBg = isNerd
-    ? 'text-blue-600 bg-blue-50'
-    : 'text-purple-600 bg-purple-50';
-  const inactiveTabText = 'text-gray-600 hover:text-gray-900';
-  const modeToggleBg = isNerd
-    ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-    : 'bg-purple-100 text-purple-700 hover:bg-purple-200';
+  const tabs = socialTabs;
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Top Navigation - Desktop Only */}
-      <nav className={`hidden sm:block sticky top-0 z-40 bg-white border-b border-gray-200 page-transition`}>
+      <nav className="hidden sm:block sticky top-0 z-40 bg-white border-b border-gray-200 page-transition">
         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             {/* Logo/Brand */}
             <div className="flex items-center gap-2">
-              <h1 className={`text-lg sm:text-xl font-bold ${topNavText}`}>
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900">
                 DU Central
               </h1>
             </div>
@@ -77,37 +57,34 @@ export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
 
             {/* Right Actions */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {/* Mode Toggle */}
+              {/* Profile Button */}
               <button
-                onClick={toggleMode}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-purple-600 text-white hover:bg-purple-700"
-                title={`Switch to ${mode === 'nerd' ? 'Social' : 'Nerd'} Mode`}
+                onClick={() => onTabChange('profile')}
+                className="flex items-center gap-2 px-3 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-purple-600 text-white hover:bg-purple-700"
+                title="View Profile"
               >
-                {mode === 'nerd' ? (
-                  <>
-                    <span className="text-white">Social</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="text-white">Nerd</span>
-                  </>
-                )}
+                <User className="w-4 h-4" />
+                <span className="text-white">Profile</span>
               </button>
 
               {/* User Name - Desktop Only */}
-              <div className="hidden sm:flex items-center gap-2 text-sm font-medium text-gray-700 px-3 py-2 rounded-md bg-gray-50">
-                <User className="w-4 h-4 stroke-current text-gray-700" />
-                <span className="hidden md:inline truncate max-w-[120px]">{profile?.name}</span>
-              </div>
+              {user && profile && (
+                <div className="hidden sm:flex items-center gap-2 text-sm font-medium text-gray-700 px-3 py-2 rounded-md bg-gray-50">
+                  <User className="w-4 h-4 stroke-current text-gray-700" />
+                  <span className="hidden md:inline truncate max-w-[120px]">{profile?.name}</span>
+                </div>
+              )}
 
               {/* Logout */}
-              <button
-                onClick={() => signOut()}
-                className="p-2 rounded-md text-gray-600 hover:bg-gray-100 transition-colors"
-                title="Logout"
-              >
-                <LogOut className="w-5 h-5 stroke-current" />
-              </button>
+              {user && (
+                <button
+                  onClick={() => signOut()}
+                  className="p-2 rounded-md text-gray-600 hover:bg-gray-100 transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="w-5 h-5 stroke-current" />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -130,9 +107,7 @@ export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
                 onClick={() => onTabChange(tab.id)}
                 className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-all ${
                   isActive
-                    ? isNerd
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-purple-600 bg-purple-50'
+                    ? 'text-purple-600 bg-purple-50'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
@@ -142,20 +117,18 @@ export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
             );
           })}
 
-          {/* Mode Toggle in Mobile Nav */}
+          {/* Profile Button in Mobile Nav */}
           <button
-            onClick={toggleMode}
+            onClick={() => onTabChange('profile')}
             className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-colors ${
-              isNerd ? 'text-gray-600 hover:text-purple-600' : 'text-gray-600 hover:text-blue-600'
+              currentTab === 'profile'
+                ? 'text-purple-600 bg-purple-50'
+                : 'text-gray-600 hover:text-gray-900'
             }`}
-            title={`Switch to ${mode === 'nerd' ? 'Social' : 'Nerd'} Mode`}
+            title="View Profile"
           >
-            {mode === 'social' ? (
-              <span className="text-2xl">😎</span>
-            ) : (
-              <span className="text-2xl">🤓</span>
-            )}
-            <span className="text-xs font-medium">{mode === 'nerd' ? 'Social' : 'Nerd'}</span>
+            <User className="w-5 h-5 stroke-2" />
+            <span className="text-xs font-medium">Profile</span>
           </button>
         </div>
       </nav>

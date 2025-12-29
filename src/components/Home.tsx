@@ -275,23 +275,46 @@ export function Home({ onTabChange }: HomeProps) {
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center justify-between">
             <div className="flex-1">
-              <h2 className="text-xl sm:text-2xl font-bold mb-1">Welcome back, {profile?.name}!</h2>
-              <p className="text-sm sm:text-base opacity-90">
-                {profile?.college_name} • {profile?.course}
-              </p>
-              {profile?.unique_trait && (
-                <p className="text-xs sm:text-sm opacity-75 italic mt-2">"{profile.unique_trait}"</p>
+              {user && profile ? (
+                <>
+                  <h2 className="text-xl sm:text-2xl font-bold mb-1">Welcome back, {profile?.name}!</h2>
+                  <p className="text-sm sm:text-base opacity-90">
+                    {profile?.college_name} • {profile?.course}
+                  </p>
+                  {profile?.unique_trait && (
+                    <p className="text-xs sm:text-sm opacity-75 italic mt-2">"{profile.unique_trait}"</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <h2 className="text-xl sm:text-2xl font-bold mb-1">Welcome to DU Central</h2>
+                  <p className="text-sm sm:text-base opacity-90">
+                    Discover what's happening around campus
+                  </p>
+                  <p className="text-xs sm:text-sm opacity-75 italic mt-2">Login or signup to share and chat with friends!</p>
+                </>
               )}
             </div>
-            <button
-              onClick={() => onTabChange('profile')}
-              className="ml-4 p-2.5 rounded-full bg-white/20 hover:bg-white/30 transition-colors flex-shrink-0"
-              title="View Profile"
-            >
-              <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-            </button>
+            {user && profile && (
+              <button
+                onClick={() => onTabChange('profile')}
+                className="ml-4 p-2.5 rounded-full bg-white/20 hover:bg-white/30 transition-colors flex-shrink-0"
+                title="View Profile"
+              >
+                <User className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+              </button>
+            )}
           </div>
         </div>
+      </div>
+
+      {/* Bottom Banner Image */}
+      <div className="w-full h-48 sm:h-56 overflow-hidden bg-gray-200">
+        <img 
+          src="https://res.cloudinary.com/dc8sm79wh/image/upload/v1766962920/IMG_4676_fdrjtp.png"
+          alt="Header Banner"
+          className="w-full h-full object-cover"
+        />
       </div>
 
       {/* Feed Section */}

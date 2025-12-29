@@ -1,23 +1,22 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type Mode = 'nerd' | 'social';
+type Mode = 'social';
 
 interface ModeContextType {
   mode: Mode;
   setMode: (mode: Mode) => void;
-  toggleMode: () => void;
 }
 
 const ModeContext = createContext<ModeContextType | undefined>(undefined);
 
 export function ModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setModeState] = useState<Mode>('nerd');
+  const [mode, setModeState] = useState<Mode>('social');
   const [mounted, setMounted] = useState(false);
 
   // Initialize from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem('app-mode') as Mode | null;
-    const initialMode = stored || 'nerd';
+    const initialMode = stored || 'social';
     setModeState(initialMode);
     setMounted(true);
     applyTheme(initialMode);
@@ -35,7 +34,7 @@ export function ModeProvider({ children }: { children: ReactNode }) {
     const body = document.documentElement;
     
     // Remove old classes
-    body.classList.remove('mode-social', 'mode-nerd');
+    body.classList.remove('mode-social');
     
     // Add new class
     body.classList.add(`mode-${newMode}`);
@@ -54,12 +53,8 @@ export function ModeProvider({ children }: { children: ReactNode }) {
     setModeState(newMode);
   };
 
-  const toggleMode = () => {
-    setMode(mode === 'nerd' ? 'social' : 'nerd');
-  };
-
   return (
-    <ModeContext.Provider value={{ mode, setMode, toggleMode }}>
+    <ModeContext.Provider value={{ mode, setMode }}>
       {children}
     </ModeContext.Provider>
   );

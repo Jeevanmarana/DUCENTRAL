@@ -3,7 +3,6 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useMode } from '../contexts/ModeContext';
 import { Send, Trash2, MessageCircle, X } from 'lucide-react';
-import BackButton from './BackButton';
 
 interface Confession {
   id: string;
@@ -293,9 +292,6 @@ export function Confessions() {
       {/* Header - Fixed on mobile */}
       <div className={`bg-gradient-to-r ${accentColor} text-white px-4 sm:px-6 py-6 sm:py-8 fixed md:sticky top-0 left-0 right-0 z-30`}>
         <div className="max-w-2xl mx-auto">
-          <div className="mb-2">
-            <BackButton />
-          </div>
           <h1 className="text-2xl sm:text-3xl font-bold">🍵 Tea</h1>
           <p className="text-sm sm:text-base opacity-90 mt-1">Spill the tea anonymously</p>
         </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { ModeProvider, useMode } from './contexts/ModeContext';
+import { ModeProvider } from './contexts/ModeContext';
 import { Auth } from './components/Auth';
 import { Landing } from './components/Landing';
 import { Help } from './components/Help';
@@ -8,9 +8,6 @@ import { Contact } from './components/Contact';
 import { CreateProfile } from './components/CreateProfile';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { Profiles } from './components/Profiles';
-import { Notes } from './components/Notes';
-import { Study } from './components/Study';
 import { Chat } from './components/Chat';
 import { Confessions } from './components/Confessions';
 import { Search } from './components/Search';
@@ -26,7 +23,6 @@ function AppContent() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
   const { user, profile, loading } = useAuth();
-  const { mode } = useMode();
   const [currentTab, setCurrentTab] = useState('home');
   const [showAuth, setShowAuth] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
@@ -50,25 +46,32 @@ function AppContent() {
     return <Contact />;
   }
 
-    if (!user) {
+  // If not authenticated, show home page with login/signup option
+  if (!user) {
     if (showAuth) {
       return <Auth initialMode={authMode} onClose={() => setShowAuth(false)} />;
     }
+    
+    // Show home page to non-authenticated users (read-only)
     return (
-      <Landing
-        onLoginClick={() => {
-          setAuthMode('login');
+      <Layout currentTab={currentTab} onTabChange={(tab) => {
+        // Require login for certain tabs
+        if (tab === 'confessions' || tab === 'chat' || tab === 'profile') {
+          setAuthMode(tab === 'confessions' ? 'login' : 'login');
           setShowAuth(true);
-        }}
-        onSignupClick={() => {
-          setAuthMode('signup');
-          setShowAuth(true);
-        }}
-        onNavigate={(path: string) => {
-          window.history.pushState({}, '', path);
-          setRoute(path);
-        }}
-      />
+        } else {
+          setCurrentTab(tab);
+        }
+      }}>
+        <Home onTabChange={(tab) => {
+          if (tab === 'confessions' || tab === 'chat' || tab === 'profile') {
+            setAuthMode(tab === 'confessions' ? 'login' : 'login');
+            setShowAuth(true);
+          } else {
+            setCurrentTab(tab);
+          }
+        }} />
+      </Layout>
     );
   }
 
@@ -82,16 +85,10 @@ function AppContent() {
         return <Home onTabChange={setCurrentTab} />;
       case 'search':
         return <Search onTabChange={setCurrentTab} />;
-      case 'study':
-        return <Study />;
-      case 'notes':
-        return <Notes />;
       case 'chat':
         return <Chat />;
       case 'confessions':
         return <Confessions />;
-      case 'search':
-        return <Search onTabChange={setCurrentTab} />;
       case 'profile':
         return <MyProfile />;
       default:

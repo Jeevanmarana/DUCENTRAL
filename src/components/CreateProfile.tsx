@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { UserCircle } from 'lucide-react';
-import BackButton from './BackButton';
 
 export function CreateProfile() {
   const { user, refreshProfile } = useAuth();
@@ -10,6 +9,7 @@ export function CreateProfile() {
   const [collegeName, setCollegeName] = useState('');
   const [course, setCourse] = useState('');
   const [uniqueTrait, setUniqueTrait] = useState('');
+  const [gender, setGender] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -26,6 +26,7 @@ export function CreateProfile() {
       college_name: collegeName,
       course,
       unique_trait: uniqueTrait,
+      gender,
     });
 
     if (insertError) {
@@ -39,9 +40,6 @@ export function CreateProfile() {
   return (
     <div className="min-h-screen bg-du-bg flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-6 sm:p-8">
-        <div className="mb-4">
-          <BackButton />
-        </div>
         <div className="flex flex-col items-center mb-6">
           <div className="bg-du p-3 rounded-full mb-4">
             <UserCircle className="w-8 h-8 text-white" />
@@ -90,6 +88,23 @@ export function CreateProfile() {
               className="w-full px-4 py-2 text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
               required
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Gender
+            </label>
+            <select
+              value={gender}
+              onChange={(e) => setGender(e.target.value)}
+              className="w-full px-4 py-2 text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-du focus:border-transparent"
+              required
+            >
+              <option value="">Select your gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
           </div>
 
           <div>
