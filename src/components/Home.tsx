@@ -377,7 +377,7 @@ export function Home({ onTabChange }: HomeProps) {
                         <p className="text-xs sm:text-sm font-semibold text-gray-900 truncate">
                           {confession.profile_name}
                         </p>
-                        <p className="text-xs text-gray-500">⏰ {formatDate(confession.created_at)}</p>
+                        <p className="text-xs text-gray-600">{formatDate(confession.created_at)}</p>
                       </div>
                     </div>
                     {isOwner && (
@@ -423,7 +423,7 @@ export function Home({ onTabChange }: HomeProps) {
                             onChange={(e) => setCommentText((prev) => ({ ...prev, [confession.id]: e.target.value }))}
                             placeholder="Share your thoughts... (max 200)"
                             maxLength={200}
-                            className={`flex-1 bg-white text-gray-900 ${accentPlaceholder} border ${accentBorder} rounded-lg px-3 py-2 text-xs sm:text-sm focus:border-current focus:ring-2 focus:ring-opacity-20 focus:outline-none transition-all`}
+                            className={`flex-1 bg-white text-gray-900 ${accentPlaceholder} border ${accentBorder} rounded-lg px-3 py-2 text-base sm:text-sm focus:border-current focus:ring-2 focus:ring-opacity-20 focus:outline-none transition-all`}
                           />
                           <button
                             onClick={() => handlePostComment(confession.id)}
