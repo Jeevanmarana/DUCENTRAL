@@ -312,7 +312,7 @@ export function Confessions() {
               onChange={(e) => setNewConfession(e.target.value)}
               placeholder="Spill the tea here... (max 500 characters)"
               maxLength={500}
-              className={`w-full bg-white text-gray-900 ${accentPlaceholder} border ${accentBorder} rounded-xl p-3 sm:p-4 focus:border-current focus:ring-2 focus:ring-opacity-20 focus:outline-none resize-none text-sm sm:text-base leading-relaxed transition-all`}
+              className={`w-full bg-white text-gray-900 ${accentPlaceholder} border ${accentBorder} rounded-xl p-3 sm:p-4 focus:border-current focus:ring-2 focus:ring-opacity-20 focus:outline-none resize-none text-base sm:text-base leading-relaxed transition-all`}
               rows={4}
             />
             <div className="flex items-center justify-between mt-4 gap-3">
@@ -415,7 +415,7 @@ export function Confessions() {
                           onChange={(e) => setCommentText((prev) => ({ ...prev, [confession.id]: e.target.value }))}
                           placeholder="Share your thoughts... (max 200)"
                           maxLength={200}
-                          className={`flex-1 bg-white text-gray-900 ${accentPlaceholder} border ${accentBorder} rounded-lg px-3 py-2 text-xs sm:text-sm focus:border-current focus:ring-2 focus:ring-opacity-20 focus:outline-none transition-all`}
+                          className={`flex-1 bg-white text-gray-900 ${accentPlaceholder} border ${accentBorder} rounded-lg px-3 py-2 text-base sm:text-sm focus:border-current focus:ring-2 focus:ring-opacity-20 focus:outline-none transition-all`}
                         />
                         <button
                           onClick={() => handlePostComment(confession.id)}
