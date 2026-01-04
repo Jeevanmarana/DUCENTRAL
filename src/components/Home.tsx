@@ -309,11 +309,11 @@ export function Home({ onTabChange }: HomeProps) {
       </div>
 
       {/* Bottom Banner Image */}
-      <div className="w-full h-48 sm:h-56 overflow-hidden bg-gray-200">
+      <div className="w-full h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden bg-gray-200 flex items-center justify-center">
         <img 
           src="https://res.cloudinary.com/dc8sm79wh/image/upload/v1766962920/IMG_4676_fdrjtp.png"
           alt="Header Banner"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-center"
         />
       </div>
 

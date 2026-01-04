@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ModeProvider } from './contexts/ModeContext';
+import { UnreadMessagesProvider } from './contexts/UnreadMessagesContext';
 import { Auth } from './components/Auth';
 import { Landing } from './components/Landing';
 import { Help } from './components/Help';
@@ -107,7 +108,9 @@ function App() {
   return (
     <AuthProvider>
       <ModeProvider>
-        <AppContent />
+        <UnreadMessagesProvider>
+          <AppContent />
+        </UnreadMessagesProvider>
       </ModeProvider>
     </AuthProvider>
   );

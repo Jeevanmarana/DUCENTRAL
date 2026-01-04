@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase, ChatRoom, ChatMessage } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import { useMode } from '../contexts/ModeContext';
+import { useUnreadMessages } from '../contexts/UnreadMessagesContext';
 import { MessageCircle, Send, Users, ArrowLeft, Home, LogOut, BookOpen, Heart } from 'lucide-react';
 
 interface ExtendedChatMessage extends ChatMessage {
@@ -16,6 +17,7 @@ interface TypingUser {
 export function Chat() {
   const { user, profile, signOut } = useAuth();
   const { mode, setMode } = useMode();
+  const { unreadCounts, markRoomAsRead } = useUnreadMessages();
   const [rooms, setRooms] = useState<ChatRoom[]>([]);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [messages, setMessages] = useState<ExtendedChatMessage[]>([]);
@@ -38,6 +40,8 @@ export function Chat() {
       fetchMessages(selectedRoom);
       subscribeToMessages(selectedRoom);
       subscribeToTyping(selectedRoom);
+      // Mark room as read when selected
+      markRoomAsRead(selectedRoom);
     }
 
     return () => {
@@ -48,7 +52,7 @@ export function Chat() {
         supabase.removeChannel(typingChannelRef.current);
       }
     };
-  }, [selectedRoom]);
+  }, [selectedRoom, markRoomAsRead]);
 
   // Toggle a body class when a chat room is open so layout can hide mobile nav
   useEffect(() => {
@@ -409,27 +413,40 @@ export function Chat() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-3 p-3 md:grid-cols-2 lg:grid-cols-3 md:p-4">
-            {rooms.map((room) => (
-              <button
-                key={room.id}
-                onClick={() => setSelectedRoom(room.id)}
-                className={`p-3 text-left hover:shadow-md transition border rounded-lg space-y-1 ${cardGradient} ${accentBorder}`}
-              >
-                <div className="flex items-start space-x-3">
-                  <div className={`p-2 rounded-lg bg-gray-100 md:${accentBg} md:text-white`}>
-                    <Users className="w-5 h-5 text-gray-900 md:text-white stroke-current" />
+            {rooms.map((room) => {
+              const unreadCount = unreadCounts[room.id] || 0;
+              return (
+                <button
+                  key={room.id}
+                  onClick={() => setSelectedRoom(room.id)}
+                  className={`p-3 text-left hover:shadow-md transition border rounded-lg space-y-1 relative ${cardGradient} ${accentBorder}`}
+                >
+                  <div className="flex items-start space-x-3">
+                    <div className={`p-2 rounded-lg bg-gray-100 md:${accentBg} md:text-white relative`}>
+                      <Users className="w-5 h-5 text-gray-900 md:text-white stroke-current" />
+                      {unreadCount > 0 && (
+                        <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center px-1 bg-red-500 text-white text-[10px] font-bold rounded-full">
+                          {unreadCount > 99 ? '99+' : unreadCount}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h3 className={`font-semibold truncate text-sm md:text-base ${isNerd ? 'text-blue-600' : 'text-purple-600'}`}>
+                          {room.name}
+                        </h3>
+                        {unreadCount > 0 && (
+                          <span className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0"></span>
+                        )}
+                      </div>
+                      <p className="text-xs md:text-sm text-gray-600 truncate">
+                        {room.description}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className={`font-semibold truncate text-sm md:text-base ${isNerd ? 'text-blue-600' : 'text-purple-600'}`}>
-                      {room.name}
-                    </h3>
-                    <p className="text-xs md:text-sm text-gray-600 truncate">
-                      {room.description}
-                    </p>
-                  </div>
-                </div>
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>

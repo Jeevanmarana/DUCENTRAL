@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useUnreadMessages } from '../contexts/UnreadMessagesContext';
 import { Home, MessageCircle, LogOut, User, Search, Coffee } from 'lucide-react';
 
 type LayoutProps = {
@@ -10,6 +11,7 @@ type LayoutProps = {
 
 export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
   const { user, profile, signOut } = useAuth();
+  const { totalUnreadCount } = useUnreadMessages();
 
   const socialTabs = [
     { id: 'home', label: 'Home', icon: Home },
@@ -19,6 +21,16 @@ export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
   ];
 
   const tabs = socialTabs;
+  
+  // Helper to render badge
+  const renderBadge = (count: number) => {
+    if (count <= 0) return null;
+    return (
+      <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] flex items-center justify-center px-1.5 bg-red-500 text-white text-[10px] font-bold rounded-full">
+        {count > 99 ? '99+' : count}
+      </span>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -38,17 +50,21 @@ export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 const isActive = currentTab === tab.id;
+                const unreadCount = tab.id === 'chat' ? totalUnreadCount : 0;
                 return (
                   <button
                     key={tab.id}
                     onClick={() => onTabChange(tab.id)}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all relative ${
                       isActive 
                         ? 'bg-purple-600 text-white shadow-md'
                         : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                     }`}
                   >
-                    <Icon className={`w-4 h-4 stroke-current ${isActive ? 'text-white' : ''}`} />
+                    <div className="relative">
+                      <Icon className={`w-4 h-4 stroke-current ${isActive ? 'text-white' : ''}`} />
+                      {unreadCount > 0 && renderBadge(unreadCount)}
+                    </div>
                     <span className={isActive ? 'text-white' : ''}>{tab.label}</span>
                   </button>
                 );
@@ -101,17 +117,21 @@ export function Layout({ children, currentTab, onTabChange }: LayoutProps) {
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = currentTab === tab.id;
+            const unreadCount = tab.id === 'chat' ? totalUnreadCount : 0;
             return (
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-all ${
+                className={`flex flex-col items-center justify-center w-full h-full gap-1 transition-all relative ${
                   isActive
                     ? 'text-purple-600 bg-purple-50'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
               >
-                <Icon className="w-5 h-5 stroke-2 text-current" />
+                <div className="relative">
+                  <Icon className="w-5 h-5 stroke-2 text-current" />
+                  {unreadCount > 0 && renderBadge(unreadCount)}
+                </div>
                 <span className="text-xs font-medium">{tab.label}</span>
               </button>
             );
